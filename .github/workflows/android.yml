@@ -12,6 +12,7 @@ jobs:
   release-project:
     name: Release Project
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: build-project
     steps:
     - name: Download artifacts
@@ -53,7 +54,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
       - name: Upload build outputs
-        if: always()
+        if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/upload-artifact@v1
         with:
           name: app-debug.apk
